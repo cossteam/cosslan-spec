@@ -19,8 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	DeviceService_DeviceUp_FullMethodName   = "/v1.DeviceService/DeviceUp"
-	DeviceService_DeviceDown_FullMethodName = "/v1.DeviceService/DeviceDown"
+	DeviceService_DeviceUp_FullMethodName      = "/v1.DeviceService/DeviceUp"
+	DeviceService_DeviceDown_FullMethodName    = "/v1.DeviceService/DeviceDown"
+	DeviceService_GetDeviceInfo_FullMethodName = "/v1.DeviceService/GetDeviceInfo"
 )
 
 // DeviceServiceClient is the client API for DeviceService service.
@@ -29,6 +30,7 @@ const (
 type DeviceServiceClient interface {
 	DeviceUp(ctx context.Context, in *DeviceUpRequest, opts ...grpc.CallOption) (*DeviceUpResponse, error)
 	DeviceDown(ctx context.Context, in *DeviceDownRequest, opts ...grpc.CallOption) (*DeviceDownResponse, error)
+	GetDeviceInfo(ctx context.Context, in *GetDeviceInfoRequest, opts ...grpc.CallOption) (*GetDeviceInfoResponse, error)
 }
 
 type deviceServiceClient struct {
@@ -57,12 +59,22 @@ func (c *deviceServiceClient) DeviceDown(ctx context.Context, in *DeviceDownRequ
 	return out, nil
 }
 
+func (c *deviceServiceClient) GetDeviceInfo(ctx context.Context, in *GetDeviceInfoRequest, opts ...grpc.CallOption) (*GetDeviceInfoResponse, error) {
+	out := new(GetDeviceInfoResponse)
+	err := c.cc.Invoke(ctx, DeviceService_GetDeviceInfo_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DeviceServiceServer is the server API for DeviceService service.
 // All implementations should embed UnimplementedDeviceServiceServer
 // for forward compatibility
 type DeviceServiceServer interface {
 	DeviceUp(context.Context, *DeviceUpRequest) (*DeviceUpResponse, error)
 	DeviceDown(context.Context, *DeviceDownRequest) (*DeviceDownResponse, error)
+	GetDeviceInfo(context.Context, *GetDeviceInfoRequest) (*GetDeviceInfoResponse, error)
 }
 
 // UnimplementedDeviceServiceServer should be embedded to have forward compatible implementations.
@@ -74,6 +86,9 @@ func (UnimplementedDeviceServiceServer) DeviceUp(context.Context, *DeviceUpReque
 }
 func (UnimplementedDeviceServiceServer) DeviceDown(context.Context, *DeviceDownRequest) (*DeviceDownResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeviceDown not implemented")
+}
+func (UnimplementedDeviceServiceServer) GetDeviceInfo(context.Context, *GetDeviceInfoRequest) (*GetDeviceInfoResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDeviceInfo not implemented")
 }
 
 // UnsafeDeviceServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -123,6 +138,24 @@ func _DeviceService_DeviceDown_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DeviceService_GetDeviceInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDeviceInfoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DeviceServiceServer).GetDeviceInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DeviceService_GetDeviceInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DeviceServiceServer).GetDeviceInfo(ctx, req.(*GetDeviceInfoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DeviceService_ServiceDesc is the grpc.ServiceDesc for DeviceService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -137,6 +170,10 @@ var DeviceService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeviceDown",
 			Handler:    _DeviceService_DeviceDown_Handler,
+		},
+		{
+			MethodName: "GetDeviceInfo",
+			Handler:    _DeviceService_GetDeviceInfo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

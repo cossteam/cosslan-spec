@@ -25,7 +25,6 @@ test: fmt vet## Run unittests
 .PHONY: gen-grpc
 gen-grpc:
 	@for dir in $$(find api -mindepth 1 -maxdepth 1 -type d -not -path '*/\.*' -exec basename {} \;); do \
-		echo "Generating grpc for $$dir"; \
 		if [ -d api/$$dir/grpc/v1 ]; then \
 			protoc -I=. --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative,require_unimplemented_servers=false api/$$dir/grpc/v1/*.proto; \
 			protoc-go-inject-tag -input=api/$$dir/grpc/v1/*.pb.go; \
