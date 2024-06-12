@@ -1,0 +1,39 @@
+syntax = "proto3";
+package v1;
+option go_package = "github.com/cossteam/cosslan-spec/api/tool/grpc/v1";
+
+service DeviceService {
+  rpc DeviceUp(DeviceUpRequest) returns (DeviceUpResponse) {}
+  rpc DeviceDown(DeviceDownRequest) returns (DeviceDownResponse) {}
+}
+
+message ListDeviceRequest {
+
+}
+
+message ListDeviceResponse {
+  repeated DeviceInfo devices = 1;
+}
+
+message DeviceInfo {
+  string name = 1;
+  string ip = 2;
+  string mask = 3;
+  uint32 mtu = 4;
+}
+
+message DeviceUpRequest {
+  string name = 1;
+}
+
+message DeviceUpResponse {
+
+}
+
+message DeviceDownRequest {
+  string name = 1;
+}
+
+message DeviceDownResponse {
+
+}
