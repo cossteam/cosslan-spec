@@ -5,7 +5,8 @@ option go_package = "github.com/cossteam/cosslan-spec/api/tool/grpc/v1";
 service DeviceService {
   rpc DeviceUp(DeviceUpRequest) returns (DeviceUpResponse) {}
   rpc DeviceDown(DeviceDownRequest) returns (DeviceDownResponse) {}
-  rpc GetDeviceInfo(GetDeviceInfoRequest) returns (GetDeviceInfoResponse) {} // 新的 RPC 方法
+  rpc GetDeviceInfo(GetDeviceInfoRequest) returns (GetDeviceInfoResponse) {}
+  rpc ListDevice(ListDeviceRequest) returns (ListDeviceResponse) {}
 }
 
 message GetDeviceInfoRequest {

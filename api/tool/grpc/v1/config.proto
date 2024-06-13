@@ -1,0 +1,71 @@
+syntax = "proto3";
+package v1;
+option go_package = "github.com/cossteam/cosslan-spec/api/tool/grpc/v1";
+
+import "google/protobuf/duration.proto";
+
+message Config {
+  map<string, Addresses> staticAddrMap = 1;
+  NodeConfig node = 2;
+  ListenConfig listen = 3;
+  DeviceConfig device = 4;
+  HandshakeConfig handshake = 5;
+  FirewallConfig firewall = 6;
+}
+
+message Addresses {
+  repeated string addr = 1;
+}
+
+message NodeConfig {
+  bool amNode = 1;
+  repeated string addrs = 2;
+}
+
+message ListenConfig {
+  string host = 1;
+  int32 port = 2;
+  int32 batch = 3;
+  int32 readBuffer = 4;
+  int32 writeBuffer = 5;
+  int32 routines = 6;
+}
+
+message DeviceConfig {
+  string type = 1;
+  string name = 2;
+  string ip = 3;
+  string mask = 4;
+  bool dropLocalBroadcast = 5;
+  bool dropMulticast = 6;
+  int32 mtu = 7;
+}
+
+message HandshakeConfig {
+  google.protobuf.Duration syncDevice = 1;
+  google.protobuf.Duration syncNode = 2;
+  google.protobuf.Duration tryInterval = 3;
+  int32 retries = 4;
+  int32 triggerBuffer = 5;
+}
+
+message FirewallConfig {
+  string outboundDefaultAction = 1;
+  string inboundDefaultAction = 2;
+  repeated OutboundRule outbound = 3;
+  repeated InboundRule inbound = 4;
+}
+
+message OutboundRule {
+  string port = 1;
+  string proto = 2;
+  repeated string host = 3;
+  string action = 4; // "allow" or "deny"
+}
+
+message InboundRule {
+  string port = 1;
+  string proto = 2;
+  repeated string host = 3;
+  string action = 4; // "allow" or "deny"
+}
