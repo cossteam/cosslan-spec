@@ -5,7 +5,7 @@ option go_package = "github.com/cossteam/cosslan-spec/api/tool/grpc/v1";
 import "google/protobuf/duration.proto";
 
 message Config {
-  map<string, Addresses> staticAddrMap = 1;
+  map<string, Addresses>  staticAddrMap = 1;
   NodeConfig node = 2;
   ListenConfig listen = 3;
   DeviceConfig device = 4;
