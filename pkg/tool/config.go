@@ -49,6 +49,7 @@ type HandshakeConfig struct {
 	TryInterval   time.Duration `yaml:"tryInterval"`   // 尝试间隔
 	Retries       int           `yaml:"retries"`       // 尝试次数
 	TriggerBuffer int           `yaml:"triggerBuffer"` // 触发缓冲
+	UseRelay      bool          `yaml:"useRelay"`      // 是否使用中继
 }
 
 type FirewallConfig struct {
