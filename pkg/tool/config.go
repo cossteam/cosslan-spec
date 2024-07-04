@@ -12,6 +12,7 @@ type Config struct {
 	Device        *DeviceConfig       `yaml:"device"`
 	Handshake     *HandshakeConfig    `yaml:"handshake"`
 	Firewall      *FirewallConfig     `yaml:"firewall"`
+	Relay         *RelayConfig        `yaml:"relay"`
 }
 
 type NodeConfig struct {
@@ -55,6 +56,12 @@ type FirewallConfig struct {
 	InboundDefaultAction  string         `yaml:"inboundDefaultAction"`
 	Outbound              []OutboundRule `yaml:"outbound"`
 	Inbound               []InboundRule  `yaml:"inbound"`
+}
+
+type RelayConfig struct {
+	AmRelay  bool     `yaml:"amRelay"`
+	UseRelay bool     `yaml:"useRelay"`
+	Addrs    []string `yaml:"addrs"`
 }
 
 type OutboundRule struct {
